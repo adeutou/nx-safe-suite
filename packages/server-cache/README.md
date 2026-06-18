@@ -4,7 +4,7 @@
 
 ## Status
 
-🚧 Work in progress — part of the [next-safe-suite](../../README.md) monorepo. API not yet stable.
+🚧 Work in progress: part of the [next-safe-suite](../../README.md) monorepo. API not yet stable.
 
 ## Installation
 

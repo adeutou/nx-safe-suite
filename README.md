@@ -1,4 +1,4 @@
-# next-safe-suite
+# nx-safe-suite
 
 > A suite of type-safe, production-grade building blocks for Next.js backends.
 
@@ -7,9 +7,9 @@
 
 ## Why
 
-Next.js gives you a powerful set of primitives — API routes, Server Actions, RSC, middleware — but very few opinions on how to use them safely and consistently at scale. Most teams end up reinventing the same five things: environment validation, response shapes, auth/RBAC middleware, caching, and audit logging.
+Next.js gives you a powerful set of primitives (API routes, Server Actions, RSC, middleware), but very few opinions on how to use them safely and consistently at scale. Most teams end up reinventing the same five things: environment validation, response shapes, auth/RBAC middleware, caching, and audit logging.
 
-`next-safe-suite` is a small, composable set of independently-publishable packages that solve each of those problems without locking you into a framework-on-top-of-a-framework.
+`nx-safe-suite` is a small, composable set of independently-publishable packages that solve each of those problems without locking you into a framework-on-top-of-a-framework.
 
 ## Packages
 
@@ -21,7 +21,7 @@ Next.js gives you a powerful set of primitives — API routes, Server Actions, R
 | [`@nx-safe-suite/server-cache`](./packages/server-cache) | Multi-tier (memory → Redis → source) server cache with tag-based invalidation. | ![npm](https://img.shields.io/npm/v/@nx-safe-suite/server-cache)      |
 | [`@nx-safe-suite/audit-log`](./packages/audit-log)       | Structured, GDPR-friendly audit logging with pluggable transports.            | ![npm](https://img.shields.io/npm/v/@nx-safe-suite/audit-log)         |
 
-Each package is independent — install only what you need. They're designed to compose well together, but none of them depends on the others by default.
+Each package is independent, install only what you need. They're designed to compose well together, but none of them depends on the others by default.
 
 ## Quick start
 
@@ -71,7 +71,7 @@ next-safe-suite/
 pnpm install     # install all workspace dependencies
 pnpm build       # build all packages (via Turborepo)
 pnpm test        # run all test suites
-pnpm lint         # lint all packages
+pnpm lint        # lint all packages
 pnpm typecheck   # typecheck all packages
 ```
 
