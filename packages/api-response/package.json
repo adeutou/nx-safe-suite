@@ -1,6 +1,6 @@
 {
   "name": "@nx-safe-suite/api-response",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "RFC 9457 compliant, typed API response helpers for Next.js.",
   "license": "MIT",
   "type": "module",
@@ -20,7 +20,9 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
@@ -30,13 +32,23 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist .turbo node_modules"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/adeutou/nx-safe-suite.git",
     "directory": "packages/api-response"
   },
-  "keywords": ["nextjs", "typescript", "api", "response", "rfc9457", "pagination", "hateoas"],
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "api",
+    "response",
+    "rfc9457",
+    "pagination",
+    "hateoas"
+  ],
   "devDependencies": {
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",

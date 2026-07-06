@@ -1,6 +1,6 @@
 {
   "name": "@nx-safe-suite/env",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Strict, type-safe environment variable validation for Next.js, powered by Zod.",
   "license": "MIT",
   "type": "module",
