@@ -42,11 +42,20 @@
   },
   "keywords": [
     "nextjs",
-    "typescript"
+    "typescript",
+    "env",
+    "environment-variables",
+    "zod",
+    "validation"
   ],
+  "peerDependencies": {
+    "zod": "^3.23.0 || ^4.0.0"
+  },
   "devDependencies": {
+    "@types/node": "^25.9.3",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.8",
+    "zod": "^4.4.3"
   }
 }
