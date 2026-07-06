@@ -1,7 +1,7 @@
 {
   "name": "@nx-safe-suite/server-cache",
   "version": "0.0.1",
-  "description": "Multi-tier (memory -> Redis -> source) server-side cache for Next.js with tag-based invalidation.",
+  "description": "Multi-tier (memory → Redis → source) server-side cache for Next.js with TTL, tag-based invalidation, stale-while-revalidate, and stampede protection.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -9,20 +9,12 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
+      "require": { "types": "./dist/index.d.cts", "default": "./dist/index.cjs" }
     },
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
@@ -32,18 +24,13 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist .turbo node_modules"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "publishConfig": { "access": "public" },
   "repository": {
     "type": "git",
     "url": "https://github.com/adeutou/nx-safe-suite.git",
     "directory": "packages/server-cache"
   },
-  "keywords": [
-    "nextjs",
-    "typescript"
-  ],
+  "keywords": ["nextjs", "typescript", "cache", "redis", "lru", "ttl", "tags", "stale-while-revalidate"],
   "devDependencies": {
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
