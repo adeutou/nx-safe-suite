@@ -1,6 +1,6 @@
 {
   "name": "@nx-safe-suite/route-guard",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Declarative RBAC, rate-limiting and schema validation middleware for Next.js API Routes and Server Actions.",
   "license": "MIT",
   "type": "module",
@@ -9,12 +9,20 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": { "types": "./dist/index.d.ts", "default": "./dist/index.js" },
-      "require": { "types": "./dist/index.d.cts", "default": "./dist/index.cjs" }
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
@@ -24,19 +32,31 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist .turbo node_modules"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/adeutou/nx-safe-suite.git",
     "directory": "packages/route-guard"
   },
-  "keywords": ["nextjs", "typescript", "middleware", "rbac", "jwt", "rate-limit", "server-actions"],
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "middleware",
+    "rbac",
+    "jwt",
+    "rate-limit",
+    "server-actions"
+  ],
   "peerDependencies": {
     "jose": ">=4.0.0",
     "zod": "^3.23.0 || ^4.0.0"
   },
   "peerDependenciesMeta": {
-    "jose": { "optional": true }
+    "jose": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "tsup": "^8.3.5",
