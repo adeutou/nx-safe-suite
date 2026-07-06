@@ -5,4 +5,15 @@
  * @packageDocumentation
  */
 
-export const VERSION = "0.0.1";
+export { createEnv } from "./create-env";
+export { EnvValidationError } from "./errors";
+export type { EnvFieldError } from "./errors";
+export type {
+  CreateEnvOptions,
+  CreatedEnv,
+  EnvSchemaRecord,
+  InferEnvSchema,
+  OnValidationError,
+} from "./types";
+
+export const VERSION = "0.1.0";
