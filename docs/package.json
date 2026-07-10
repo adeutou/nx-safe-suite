@@ -1,0 +1,14 @@
+{
+  "name": "@nx-safe-suite/docs-site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "GitHub Pages documentation site for nx-safe-suite.",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "echo \"(lint not yet configured)\""
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1",
+    "vitest": "^2.1.8"
+  }
+}
