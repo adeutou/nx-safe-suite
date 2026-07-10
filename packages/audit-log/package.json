@@ -1,6 +1,6 @@
 {
   "name": "@nx-safe-suite/audit-log",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Structured, GDPR-friendly audit logging for Next.js with pluggable transports.",
   "license": "MIT",
   "type": "module",
