@@ -57,10 +57,9 @@ const ALL_SUBS = ['sub-env', 'sub-api', 'sub-guard', 'sub-cache', 'sub-audit'];
 
 let current = 'intro';
 
-/**
- * Navigate to a documentation section and update the corresponding navigation state.
- * @param {string} key - The documentation section key.
- */
+/* ──────────────────────────────────────────
+   NAVIGATION
+   ────────────────────────────────────────── */
 
 function navigate(key) {
   if (!SECTIONS[key]) return;
@@ -114,9 +113,9 @@ function navigate(key) {
   if (window.innerWidth <= 768) closeSidebar();
 }
 
-/**
- * Opens the mobile sidebar and prevents background scrolling.
- */
+/* ──────────────────────────────────────────
+   SIDEBAR MOBILE
+   ────────────────────────────────────────── */
 
 function openSidebar() {
   const sidebar  = document.getElementById('sidebar');
@@ -126,9 +125,6 @@ function openSidebar() {
   document.body.style.overflow = 'hidden';
 }
 
-/**
- * Closes the mobile navigation sidebar and restores page scrolling.
- */
 function closeSidebar() {
   const sidebar  = document.getElementById('sidebar');
   const overlay  = document.getElementById('overlay');
@@ -137,9 +133,6 @@ function closeSidebar() {
   document.body.style.overflow = '';
 }
 
-/**
- * Toggles the mobile sidebar between its open and closed states.
- */
 function toggleSidebar() {
   const isOpen = document.getElementById('sidebar').classList.contains('open');
   isOpen ? closeSidebar() : openSidebar();
