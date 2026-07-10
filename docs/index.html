@@ -8,531 +8,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:          #0F1117;
-      --bg-sidebar:  #0B0E15;
-      --bg-surface:  #161B27;
-      --bg-code:     #1A2236;
-      --border:      #1E2940;
-      --accent:      #3B82F6;
-      --accent-soft: #1D3557;
-      --text:        #DDE4EE;
-      --text-muted:  #6B7A99;
-      --text-dim:    #4A566E;
-      --white:       #FFFFFF;
-
-      --pkg-env:     #3B82F6;
-      --pkg-api:     #8B5CF6;
-      --pkg-guard:   #EF4444;
-      --pkg-cache:   #10B981;
-      --pkg-audit:   #F59E0B;
-
-      --font-sans: 'Inter', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-
-      --sidebar-w: 260px;
-      --header-h:  56px;
-      --radius:    6px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-sans);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 15px;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── Header ── */
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--header-h);
-      background: var(--bg-sidebar);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 24px;
-      gap: 16px;
-      z-index: 100;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .logo-mark {
-      width: 28px;
-      height: 28px;
-      background: var(--accent);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-mark svg {
-      width: 16px;
-      height: 16px;
-      fill: none;
-      stroke: white;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .logo-text {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.01em;
-    }
-
-    .logo-text span {
-      color: var(--accent);
-    }
-
-    .header-sep {
-      width: 1px;
-      height: 20px;
-      background: var(--border);
-    }
-
-    .header-meta {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-    }
-
-    .header-right {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .header-link {
-      font-size: 13px;
-      color: var(--text-muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 10px;
-      border-radius: var(--radius);
-      transition: color 0.15s, background 0.15s;
-    }
-
-    .header-link:hover {
-      color: var(--text);
-      background: var(--bg-surface);
-    }
-
-    .header-link svg {
-      width: 15px;
-      height: 15px;
-      fill: currentColor;
-    }
-
-    /* ── Layout ── */
-    .layout {
-      display: flex;
-      padding-top: var(--header-h);
-      min-height: 100vh;
-    }
-
-    /* ── Sidebar ── */
-    sidebar {
-      position: fixed;
-      top: var(--header-h);
-      left: 0;
-      bottom: 0;
-      width: var(--sidebar-w);
-      background: var(--bg-sidebar);
-      border-right: 1px solid var(--border);
-      overflow-y: auto;
-      padding: 20px 0 40px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
-    }
-
-    .nav-section {
-      padding: 0 12px;
-      margin-bottom: 6px;
-    }
-
-    .nav-section-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      padding: 12px 10px 6px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 10px;
-      border-radius: var(--radius);
-      font-size: 13.5px;
-      color: var(--text-muted);
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.12s, background 0.12s;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-
-    .nav-item:hover { color: var(--text); background: var(--bg-surface); }
-    .nav-item.active { color: var(--accent); background: var(--accent-soft); }
-
-    .nav-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .nav-sub {
-      padding-left: 27px;
-    }
-
-    .nav-sub .nav-item {
-      font-size: 12.5px;
-      padding: 5px 10px;
-    }
-
-    /* ── Main content ── */
-    main {
-      margin-left: var(--sidebar-w);
-      flex: 1;
-      max-width: 860px;
-      padding: 48px 56px 120px;
-    }
-
-    /* ── Section ── */
-    .doc-section {
-      display: none;
-    }
-
-    .doc-section.visible {
-      display: block;
-    }
-
-    /* ── Typography ── */
-    h1 {
-      font-size: 28px;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-bottom: 12px;
-    }
-
-    h2 {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.01em;
-      margin-top: 48px;
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    h3 {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-      margin-top: 28px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    strong { color: var(--text); font-weight: 500; }
-
-    /* ── Lead ── */
-    .lead {
-      font-size: 16px;
-      color: var(--text-muted);
-      margin-bottom: 32px;
-      line-height: 1.75;
-      border-left: 3px solid var(--accent);
-      padding-left: 16px;
-    }
-
-    /* ── Package badge ── */
-    .pkg-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    .pkg-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      border: 1px solid;
-    }
-
-    .pkg-version {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-dim);
-      background: var(--bg-surface);
-      padding: 3px 8px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-    }
-
-    /* ── Code blocks ── */
-    pre {
-      background: var(--bg-code);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      overflow-x: auto;
-      margin: 20px 0;
-      position: relative;
-    }
-
-    pre code {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      line-height: 1.75;
-      color: var(--text);
-    }
-
-    .pre-label {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-dim);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    code:not(pre code) {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      background: var(--bg-surface);
-      color: #93C5FD;
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-    }
-
-    /* Syntax colors */
-    .kw  { color: #93C5FD; }  /* keywords */
-    .fn  { color: #86EFAC; }  /* functions */
-    .st  { color: #FCA5A5; }  /* strings */
-    .cm  { color: #4A566E; }  /* comments */
-    .ty  { color: #F9A8D4; }  /* types */
-    .nm  { color: #FCD34D; }  /* numbers */
-    .op  { color: #A78BFA; }  /* operators/special */
-
-    /* ── Cards ── */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 14px;
-      margin: 24px 0;
-    }
-
-    .card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 18px 20px;
-      cursor: pointer;
-      transition: border-color 0.15s, transform 0.15s;
-    }
-
-    .card:hover {
-      border-color: var(--accent);
-      transform: translateY(-1px);
-    }
-
-    .card-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-bottom: 12px;
-    }
-
-    .card-name {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-
-    .card-desc {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* ── API table ── */
-    .api-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 13.5px;
-    }
-
-    .api-table th {
-      text-align: left;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      padding: 8px 14px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .api-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-muted);
-      vertical-align: top;
-    }
-
-    .api-table tr:last-child td { border-bottom: none; }
-
-    .api-table td:first-child {
-      font-family: var(--font-mono);
-      font-size: 12.5px;
-      color: #93C5FD;
-      white-space: nowrap;
-    }
-
-    .api-table td:nth-child(2) {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--text-dim);
-      white-space: nowrap;
-    }
-
-    /* ── Callout ── */
-    .callout {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid;
-      border-radius: var(--radius);
-      padding: 14px 18px;
-      margin: 20px 0;
-      font-size: 13.5px;
-      color: var(--text-muted);
-    }
-
-    .callout.info  { border-left-color: var(--accent); }
-    .callout.warn  { border-left-color: var(--pkg-audit); }
-    .callout.tip   { border-left-color: var(--pkg-cache); }
-
-    .callout strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
-    .callout.info  strong { color: var(--accent); }
-    .callout.warn  strong { color: var(--pkg-audit); }
-    .callout.tip   strong { color: var(--pkg-cache); }
-
-    /* ── Divider ── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 40px 0;
-    }
-
-    /* ── Stat row ── */
-    .stat-row {
-      display: flex;
-      gap: 24px;
-      margin: 28px 0;
-      flex-wrap: wrap;
-    }
-
-    .stat {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .stat-value {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      font-family: var(--font-mono);
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-
-    /* ── Mobile ── */
-    .menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    @media (max-width: 768px) {
-      sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.25s;
-        z-index: 90;
-      }
-      sidebar.open { transform: translateX(0); }
-      main { margin-left: 0; padding: 32px 24px 80px; }
-      .menu-btn { display: flex; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- Header -->
+<!-- ── Header ── -->
 <header>
   <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle navigation">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
     </svg>
   </button>
 
-  <a href="#" class="logo" onclick="navigate('intro')">
+  <a class="logo" onclick="navigate('intro')" href="#intro">
     <div class="logo-mark">
       <svg viewBox="0 0 24 24">
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -545,21 +35,24 @@
   <span class="header-meta">v1.0</span>
 
   <div class="header-right">
-    <a href="https://github.com/adeutou/nx-safe-suite" target="_blank" class="header-link">
+    <a href="https://github.com/adeutou/nx-safe-suite" target="_blank" rel="noopener" class="header-link">
       <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-      GitHub
+      <span class="link-label">GitHub</span>
     </a>
-    <a href="https://www.npmjs.com/org/nx-safe-suite" target="_blank" class="header-link">
+    <a href="https://www.npmjs.com/org/nx-safe-suite" target="_blank" rel="noopener" class="header-link">
       <svg viewBox="0 0 24 24"><path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331z"/></svg>
-      npm
+      <span class="link-label">npm</span>
     </a>
   </div>
 </header>
 
-<!-- Layout -->
+<!-- ── Overlay (mobile) ── -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ── Layout ── -->
 <div class="layout">
 
-<!-- Sidebar -->
+<!-- ── Sidebar ── -->
 <sidebar id="sidebar">
 
   <div class="nav-section">
@@ -636,16 +129,13 @@
   </div>
 </sidebar>
 
-<!-- Main -->
+<!-- ── Main ── -->
 <main>
 
 <!-- INTRO -->
-<section class="doc-section visible" id="sec-intro">
+<section class="doc-section" id="sec-intro">
   <h1>nx-safe-suite</h1>
-  <p class="lead">
-    A suite of independently installable, type-safe building blocks for production-grade Next.js backends.
-    No framework on top of a framework. Just five focused packages that compose well together.
-  </p>
+  <p class="lead">A suite of independently installable, type-safe building blocks for production-grade Next.js backends. No framework on top of a framework. Just five focused packages that compose well together.</p>
 
   <div class="stat-row">
     <div class="stat"><span class="stat-value">5</span><span class="stat-label">packages</span></div>
@@ -688,16 +178,13 @@
   <pre><code><span class="cm">// 1. Validate environment at startup</span>
 <span class="kw">export const</span> env = <span class="fn">createEnv</span>({ server: { DATABASE_URL: z.string().url() }, runtimeEnv: process.env });
 
-<span class="cm">// 2. Protect your route with auth, RBAC, and schema validation</span>
+<span class="cm">// 2. Protect your route</span>
 <span class="kw">export const</span> POST = guard.<span class="fn">withGuard</span>(
   { roles: [<span class="st">'admin'</span>], body: CreateProjectSchema },
   <span class="kw">async</span> (req, { user, body }) =&gt; {
-    <span class="cm">// 3. Cache the result</span>
-    <span class="kw">const</span> project = <span class="kw">await</span> <span class="fn">getOrCreate</span>(body);
-    <span class="cm">// 4. Log the action</span>
-    <span class="kw">await</span> audit.<span class="fn">log</span>({ action: <span class="st">'project.create'</span>, actor: { id: user.id }, resource: { type: <span class="st">'project'</span>, id: project.id } });
-    <span class="cm">// 5. Respond with a consistent envelope</span>
-    <span class="kw">return</span> <span class="fn">created</span>(project, { links: { self: <span class="st">`/api/projects/${project.id}`</span> } });
+    <span class="kw">const</span> project = <span class="kw">await</span> <span class="fn">getOrCreate</span>(body);   <span class="cm">// 3. Cached</span>
+    <span class="kw">await</span> audit.<span class="fn">log</span>({ action: <span class="st">'project.create'</span>, actor: { id: user.id } }); <span class="cm">// 4. Audited</span>
+    <span class="kw">return</span> <span class="fn">created</span>(project, { links: { self: <span class="st">`/api/projects/${project.id}`</span> } }); <span class="cm">// 5. RFC 9457</span>
   }
 );
 </code><span class="pre-label">TypeScript</span></pre>
@@ -717,6 +204,7 @@ pnpm add @nx-safe-suite/audit-log
 </code><span class="pre-label">Shell</span></pre>
 
   <h2>Requirements</h2>
+  <div class="table-wrap">
   <table class="api-table">
     <thead><tr><th>Requirement</th><th>Version</th></tr></thead>
     <tbody>
@@ -727,21 +215,20 @@ pnpm add @nx-safe-suite/audit-log
       <tr><td>jose (peer, optional, for JWT auth)</td><td>4.0 or later</td></tr>
     </tbody>
   </table>
+  </div>
 
-  <h2>Configuring GitHub Pages</h2>
-  <p>This documentation is served via GitHub Pages from the <code>docs/</code> folder on the <code>main</code> branch. To enable it on your fork, go to <strong>Settings → Pages → Source</strong> and select the <code>docs</code> folder.</p>
+  <h2>Enabling GitHub Pages</h2>
+  <p>This site is served from the <code>docs/</code> folder on the <code>main</code> branch. To enable it on your fork, go to <strong>Settings → Pages → Source</strong> and select the <code>docs</code> folder.</p>
 </section>
 
 <!-- ENV -->
 <section class="doc-section" id="sec-env">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-env); border-color: var(--pkg-env); background: rgba(59,130,246,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-env)"></span>
-      @nx-safe-suite/env
+    <span class="pkg-badge" style="color:var(--pkg-env);border-color:var(--pkg-env);background:rgba(59,130,246,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-env)"></span>@nx-safe-suite/env
     </span>
     <span class="pkg-version">v0.1.0</span>
   </div>
-
   <h1>Environment validation</h1>
   <p class="lead">Validates <code>process.env</code> against Zod schemas at startup. If a variable is missing or invalid, the process exits immediately with a readable report. No more silent crashes in production.</p>
 
@@ -759,9 +246,6 @@ pnpm add @nx-safe-suite/audit-log
   },
   runtimeEnv: process.env,
 });
-
-<span class="cm">// Fully typed — autocomplete works everywhere</span>
-console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// string</span>
 </code><span class="pre-label">env.ts</span></pre>
 
   <div class="callout info">
@@ -771,6 +255,7 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 
   <h2>API Reference</h2>
   <h3>createEnv(options)</h3>
+  <div class="table-wrap">
   <table class="api-table">
     <thead><tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
     <tbody>
@@ -783,18 +268,18 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
       <tr><td>skipValidation</td><td>boolean</td><td>false</td><td>Bypass validation entirely. Escape hatch for build stages.</td></tr>
     </tbody>
   </table>
+  </div>
 </section>
 
-<!-- ENV-API (redirected into env section in simple mode) -->
+<!-- ENV-API -->
 <section class="doc-section" id="sec-env-api">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-env); border-color: var(--pkg-env); background: rgba(59,130,246,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-env)"></span>@nx-safe-suite/env
+    <span class="pkg-badge" style="color:var(--pkg-env);border-color:var(--pkg-env);background:rgba(59,130,246,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-env)"></span>@nx-safe-suite/env
     </span>
   </div>
   <h1>API Reference</h1>
-  <p>See the <a onclick="navigate('env')">main env page</a> for the full <code>createEnv</code> option table.</p>
-  <h2>Exported types</h2>
+  <div class="table-wrap">
   <table class="api-table">
     <thead><tr><th>Export</th><th>Description</th></tr></thead>
     <tbody>
@@ -804,13 +289,14 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
       <tr><td>CreateEnvOptions</td><td>Full options interface.</td></tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 <!-- ENV-RECIPES -->
 <section class="doc-section" id="sec-env-recipes">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-env); border-color: var(--pkg-env); background: rgba(59,130,246,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-env)"></span>@nx-safe-suite/env
+    <span class="pkg-badge" style="color:var(--pkg-env);border-color:var(--pkg-env);background:rgba(59,130,246,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-env)"></span>@nx-safe-suite/env
     </span>
   </div>
   <h1>Recipes</h1>
@@ -830,7 +316,6 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 
   <h2>Use throw mode in tests</h2>
   <pre><code><span class="kw">export const</span> env = <span class="fn">createEnv</span>({
-  <span class="cm">/* schemas */</span>,
   runtimeEnv: process.env,
   onValidationError: process.env.NODE_ENV === <span class="st">"test"</span> ? <span class="st">"throw"</span> : <span class="st">"exit"</span>,
 });
@@ -840,21 +325,20 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 <!-- API-RESPONSE -->
 <section class="doc-section" id="sec-api-response">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-api); border-color: var(--pkg-api); background: rgba(139,92,246,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-api)"></span>@nx-safe-suite/api-response
+    <span class="pkg-badge" style="color:var(--pkg-api);border-color:var(--pkg-api);background:rgba(139,92,246,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-api)"></span>@nx-safe-suite/api-response
     </span>
     <span class="pkg-version">v0.1.0</span>
   </div>
-
   <h1>API responses</h1>
   <p class="lead">Typed helpers that produce consistent JSON envelopes. Success responses follow the <code>{ data, meta, links? }</code> shape. Error responses follow RFC 9457 with a custom <code>code</code> field for machine-readable business errors.</p>
 
   <h2>Quick start</h2>
-  <pre><code><span class="kw">import</span> { ok, notFound, unprocessable } <span class="kw">from</span> <span class="st">"@nx-safe-suite/api-response"</span>;
+  <pre><code><span class="kw">import</span> { ok, notFound } <span class="kw">from</span> <span class="st">"@nx-safe-suite/api-response"</span>;
 
 <span class="kw">export async function</span> <span class="fn">GET</span>(_req, { params }) {
   <span class="kw">const</span> user = <span class="kw">await</span> db.user.<span class="fn">findUnique</span>({ where: { id: params.id } });
-  <span class="kw">if</span> (!user) <span class="kw">return</span> <span class="fn">notFound</span>({ code: <span class="st">"USER_NOT_FOUND"</span>, instance: <span class="st">`/api/users/${params.id}`</span> });
+  <span class="kw">if</span> (!user) <span class="kw">return</span> <span class="fn">notFound</span>({ code: <span class="st">"USER_NOT_FOUND"</span> });
   <span class="kw">return</span> <span class="fn">ok</span>(user, { links: { self: <span class="st">`/api/users/${user.id}`</span> } });
 }
 </code><span class="pre-label">app/api/users/[id]/route.ts</span></pre>
@@ -863,11 +347,12 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 <!-- API-SUCCESS -->
 <section class="doc-section" id="sec-api-success">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-api); border-color: var(--pkg-api); background: rgba(139,92,246,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-api)"></span>@nx-safe-suite/api-response
+    <span class="pkg-badge" style="color:var(--pkg-api);border-color:var(--pkg-api);background:rgba(139,92,246,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-api)"></span>@nx-safe-suite/api-response
     </span>
   </div>
   <h1>Success helpers</h1>
+  <div class="table-wrap">
   <table class="api-table">
     <thead><tr><th>Helper</th><th>Status</th><th>Notes</th></tr></thead>
     <tbody>
@@ -877,6 +362,7 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
       <tr><td>noContent(opts?)</td><td>204</td><td>Empty body. Use for DELETE.</td></tr>
     </tbody>
   </table>
+  </div>
 
   <h2>Response shape</h2>
   <pre><code>{
@@ -890,11 +376,12 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 <!-- API-ERRORS -->
 <section class="doc-section" id="sec-api-errors">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-api); border-color: var(--pkg-api); background: rgba(139,92,246,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-api)"></span>@nx-safe-suite/api-response
+    <span class="pkg-badge" style="color:var(--pkg-api);border-color:var(--pkg-api);background:rgba(139,92,246,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-api)"></span>@nx-safe-suite/api-response
     </span>
   </div>
   <h1>Error helpers</h1>
+  <div class="table-wrap">
   <table class="api-table">
     <thead><tr><th>Helper</th><th>Status</th><th>Special behaviour</th></tr></thead>
     <tbody>
@@ -909,6 +396,7 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
       <tr><td>error(status, opts?)</td><td>any</td><td>Generic builder.</td></tr>
     </tbody>
   </table>
+  </div>
 
   <h2>Error shape (RFC 9457)</h2>
   <pre><code>{
@@ -925,8 +413,8 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 <!-- API-PAGINATION -->
 <section class="doc-section" id="sec-api-pagination">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-api); border-color: var(--pkg-api); background: rgba(139,92,246,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-api)"></span>@nx-safe-suite/api-response
+    <span class="pkg-badge" style="color:var(--pkg-api);border-color:var(--pkg-api);background:rgba(139,92,246,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-api)"></span>@nx-safe-suite/api-response
     </span>
   </div>
   <h1>Pagination</h1>
@@ -947,8 +435,8 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 <!-- ROUTE-GUARD -->
 <section class="doc-section" id="sec-route-guard">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-guard); border-color: var(--pkg-guard); background: rgba(239,68,68,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-guard)"></span>@nx-safe-suite/route-guard
+    <span class="pkg-badge" style="color:var(--pkg-guard);border-color:var(--pkg-guard);background:rgba(239,68,68,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-guard)"></span>@nx-safe-suite/route-guard
     </span>
     <span class="pkg-version">v0.1.0</span>
   </div>
@@ -965,12 +453,9 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 });
 
 <span class="kw">export const</span> POST = guard.<span class="fn">withGuard</span>(
-  {
-    roles: [<span class="st">"admin"</span>],
-    body:  z.<span class="fn">object</span>({ name: z.<span class="fn">string</span>() }),
-  },
+  { roles: [<span class="st">"admin"</span>], body: z.<span class="fn">object</span>({ name: z.<span class="fn">string</span>() }) },
   <span class="kw">async</span> (req, { user, body }) =&gt; {
-    <span class="kw">return</span> <span class="fn">created</span>({ id: <span class="st">"new-id"</span>, name: body.name });
+    <span class="kw">return</span> <span class="fn">created</span>({ name: body.name, createdBy: user.id });
   },
 );
 </code><span class="pre-label">app/api/projects/route.ts</span></pre>
@@ -979,14 +464,13 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
 <!-- GUARD-API-ROUTES -->
 <section class="doc-section" id="sec-guard-api-routes">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-guard); border-color: var(--pkg-guard); background: rgba(239,68,68,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-guard)"></span>@nx-safe-suite/route-guard
+    <span class="pkg-badge" style="color:var(--pkg-guard);border-color:var(--pkg-guard);background:rgba(239,68,68,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-guard)"></span>@nx-safe-suite/route-guard
     </span>
   </div>
   <h1>API Routes</h1>
   <h2>withGuard(routeOpts, handler)</h2>
-  <p>Wraps a Next.js App Router route handler. The guard runs authentication, authorization, rate limiting, and schema validation in that order before calling your handler.</p>
-
+  <div class="table-wrap">
   <table class="api-table">
     <thead><tr><th>Option</th><th>Type</th><th>Description</th></tr></thead>
     <tbody>
@@ -998,13 +482,14 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
       <tr><td>params</td><td>ZodType</td><td>Schema for the route params.</td></tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 <!-- GUARD-ACTIONS -->
 <section class="doc-section" id="sec-guard-actions">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-guard); border-color: var(--pkg-guard); background: rgba(239,68,68,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-guard)"></span>@nx-safe-suite/route-guard
+    <span class="pkg-badge" style="color:var(--pkg-guard);border-color:var(--pkg-guard);background:rgba(239,68,68,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-guard)"></span>@nx-safe-suite/route-guard
     </span>
   </div>
   <h1>Server Actions</h1>
@@ -1017,34 +502,32 @@ console.<span class="fn">log</span>(env.DATABASE_URL); <span class="cm">// strin
   },
 );
 </code><span class="pre-label">actions/users.ts</span></pre>
-
   <div class="callout warn">
     <strong>Server Actions and errors</strong>
-    <code>withAction</code> throws a <code>GuardError</code> when auth or RBAC fails, because Server Actions cannot return a <code>Response</code>. Catch it in your action or in an error boundary.
+    <code>withAction</code> throws a <code>GuardError</code> when auth or RBAC fails, because Server Actions cannot return a <code>Response</code>.
   </div>
 </section>
 
 <!-- GUARD-RBAC -->
 <section class="doc-section" id="sec-guard-rbac">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-guard); border-color: var(--pkg-guard); background: rgba(239,68,68,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-guard)"></span>@nx-safe-suite/route-guard
+    <span class="pkg-badge" style="color:var(--pkg-guard);border-color:var(--pkg-guard);background:rgba(239,68,68,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-guard)"></span>@nx-safe-suite/route-guard
     </span>
   </div>
   <h1>RBAC</h1>
-  <p>Roles can be a static list or a dynamic function for attribute-based checks.</p>
   <pre><code><span class="cm">// Any role match grants access</span>
 guard.<span class="fn">withGuard</span>({ roles: [<span class="st">"admin"</span>, <span class="st">"editor"</span>] }, handler);
 
-<span class="cm">// Dynamic check — full user object available</span>
+<span class="cm">// Dynamic function check</span>
 guard.<span class="fn">withGuard</span>(
-  { roles: (user) =&gt; user.organizationId === <span class="st">"org-123"</span> && user.roles.<span class="fn">includes</span>(<span class="st">"member"</span>) },
+  { roles: (user) =&gt; user.organizationId === <span class="st">"org-123"</span> },
   handler,
 );
 
-<span class="cm">// Async check — useful for DB lookups</span>
+<span class="cm">// Async check for DB lookups</span>
 guard.<span class="fn">withGuard</span>(
-  { roles: <span class="kw">async</span> (user) =&gt; { <span class="kw">const</span> perm = <span class="kw">await</span> <span class="fn">getPermission</span>(user.id); <span class="kw">return</span> perm.canWrite; } },
+  { roles: <span class="kw">async</span> (user) =&gt; { <span class="kw">const</span> p = <span class="kw">await</span> <span class="fn">getPermission</span>(user.id); <span class="kw">return</span> p.canWrite; } },
   handler,
 );
 </code><span class="pre-label">TypeScript</span></pre>
@@ -1053,32 +536,27 @@ guard.<span class="fn">withGuard</span>(
 <!-- GUARD-RATE -->
 <section class="doc-section" id="sec-guard-rate">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-guard); border-color: var(--pkg-guard); background: rgba(239,68,68,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-guard)"></span>@nx-safe-suite/route-guard
+    <span class="pkg-badge" style="color:var(--pkg-guard);border-color:var(--pkg-guard);background:rgba(239,68,68,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-guard)"></span>@nx-safe-suite/route-guard
     </span>
   </div>
   <h1>Rate limiting</h1>
-  <p>Built-in LRU in-memory store with a pluggable interface. Swap to Upstash or Redis for distributed deployments.</p>
-  <pre><code><span class="kw">import</span> { createGuard, LruRateLimiterStore } <span class="kw">from</span> <span class="st">"@nx-safe-suite/route-guard"</span>;
-
-<span class="kw">const</span> guard = <span class="fn">createGuard</span>({
+  <p>Built-in LRU in-memory store with a pluggable interface. Window accepts a number (milliseconds) or a string: <code>"500ms"</code>, <code>"30s"</code>, <code>"1m"</code>, <code>"2h"</code>, <code>"1d"</code>.</p>
+  <pre><code><span class="kw">const</span> guard = <span class="fn">createGuard</span>({
   rateLimit: {
     max:     <span class="nm">60</span>,
     window:  <span class="st">"1m"</span>,
-    <span class="cm">// Key by authenticated user ID instead of IP</span>
-    keyFrom: <span class="kw">async</span> (req) =&gt; (<span class="kw">await</span> <span class="fn">getSession</span>(req))?.user?.id ?? req.headers.<span class="fn">get</span>(<span class="st">"x-forwarded-for"</span>) ?? <span class="st">"anon"</span>,
+    keyFrom: <span class="kw">async</span> (req) =&gt; (<span class="kw">await</span> <span class="fn">getSession</span>(req))?.user?.id ?? <span class="st">"anon"</span>,
   },
 });
 </code><span class="pre-label">TypeScript</span></pre>
-
-  <p>Window accepts a number (milliseconds) or a human-readable string: <code>"500ms"</code>, <code>"30s"</code>, <code>"1m"</code>, <code>"2h"</code>, <code>"1d"</code>.</p>
 </section>
 
 <!-- SERVER-CACHE -->
 <section class="doc-section" id="sec-server-cache">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-cache); border-color: var(--pkg-cache); background: rgba(16,185,129,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-cache)"></span>@nx-safe-suite/server-cache
+    <span class="pkg-badge" style="color:var(--pkg-cache);border-color:var(--pkg-cache);background:rgba(16,185,129,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-cache)"></span>@nx-safe-suite/server-cache
     </span>
     <span class="pkg-version">v0.1.0</span>
   </div>
@@ -1098,8 +576,6 @@ guard.<span class="fn">withGuard</span>(
   { tags: (id) =&gt; [<span class="st">`user:${id}`</span>], ttl: <span class="nm">300</span> },
 );
 
-<span class="cm">// Invalidate after update</span>
-<span class="kw">await</span> db.user.<span class="fn">update</span>({ where: { id }, data });
 <span class="kw">await</span> getUser.<span class="fn">invalidateTag</span>(<span class="st">`user:${id}`</span>);
 </code><span class="pre-label">TypeScript</span></pre>
 </section>
@@ -1107,42 +583,37 @@ guard.<span class="fn">withGuard</span>(
 <!-- CACHE-LAYERS -->
 <section class="doc-section" id="sec-cache-layers">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-cache); border-color: var(--pkg-cache); background: rgba(16,185,129,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-cache)"></span>@nx-safe-suite/server-cache
+    <span class="pkg-badge" style="color:var(--pkg-cache);border-color:var(--pkg-cache);background:rgba(16,185,129,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-cache)"></span>@nx-safe-suite/server-cache
     </span>
   </div>
   <h1>Cache layers</h1>
-  <p>Layers are checked in order. On a hit, faster layers are back-filled automatically so the next request is served from memory.</p>
-
+  <p>Layers are checked in order. On a hit, faster layers are back-filled automatically.</p>
   <pre><code><span class="cm">// L1: in-memory LRU (max 500 entries)</span>
 <span class="kw">new</span> <span class="fn">MemoryStore</span>(<span class="nm">500</span>)
 
-<span class="cm">// L2: Redis (ioredis or @upstash/redis — same interface)</span>
+<span class="cm">// L2: Redis (ioredis or @upstash/redis)</span>
 <span class="kw">new</span> <span class="fn">RedisStore</span>(<span class="kw">new</span> Redis(env.REDIS_URL))
 
-<span class="cm">// Custom layer — implement the CacheStore interface</span>
-<span class="kw">class</span> <span class="ty">MyStore</span> <span class="kw">implements</span> <span class="ty">CacheStore</span> { <span class="cm">/* get, set, delete, clear, keysByTag, addTagKeys, deleteTag */</span> }
+<span class="cm">// Custom layer</span>
+<span class="kw">class</span> <span class="ty">MyStore</span> <span class="kw">implements</span> <span class="ty">CacheStore</span> { <span class="cm">/* ... */</span> }
 </code><span class="pre-label">TypeScript</span></pre>
 </section>
 
 <!-- CACHE-TAGS -->
 <section class="doc-section" id="sec-cache-tags">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-cache); border-color: var(--pkg-cache); background: rgba(16,185,129,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-cache)"></span>@nx-safe-suite/server-cache
+    <span class="pkg-badge" style="color:var(--pkg-cache);border-color:var(--pkg-cache);background:rgba(16,185,129,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-cache)"></span>@nx-safe-suite/server-cache
     </span>
   </div>
   <h1>Tag invalidation</h1>
-  <p>Tag multiple cache keys with a common label and invalidate the whole group at once.</p>
   <pre><code><span class="kw">const</span> getPosts = <span class="fn">cache</span>(
   <span class="kw">async</span> (authorId: <span class="ty">string</span>) =&gt; db.post.<span class="fn">findMany</span>({ where: { authorId } }),
   { tags: (authorId) =&gt; [<span class="st">`author:${authorId}`</span>, <span class="st">"posts"</span>] },
 );
 
-<span class="cm">// Invalidate all cached post lists</span>
 <span class="kw">await</span> getPosts.<span class="fn">invalidateTag</span>(<span class="st">"posts"</span>);
-
-<span class="cm">// Invalidate only one author's lists</span>
 <span class="kw">await</span> getPosts.<span class="fn">invalidateTag</span>(<span class="st">`author:${authorId}`</span>);
 </code><span class="pre-label">TypeScript</span></pre>
 </section>
@@ -1150,32 +621,28 @@ guard.<span class="fn">withGuard</span>(
 <!-- CACHE-SWR -->
 <section class="doc-section" id="sec-cache-swr">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-cache); border-color: var(--pkg-cache); background: rgba(16,185,129,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-cache)"></span>@nx-safe-suite/server-cache
+    <span class="pkg-badge" style="color:var(--pkg-cache);border-color:var(--pkg-cache);background:rgba(16,185,129,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-cache)"></span>@nx-safe-suite/server-cache
     </span>
   </div>
   <h1>Stale-while-revalidate</h1>
-  <p>Return a cached value immediately even if it is stale, while refreshing it in the background. The next request gets the fresh value.</p>
+  <p>Return a cached value immediately while refreshing it in the background.</p>
   <pre><code><span class="kw">const</span> getDashboard = <span class="fn">cache</span>(
   <span class="kw">async</span> (orgId: <span class="ty">string</span>) =&gt; <span class="fn">buildDashboard</span>(orgId),
-  {
-    ttl:        <span class="nm">3600</span>,  <span class="cm">// entry expires after 1 hour</span>
-    revalidate: <span class="nm">300</span>,   <span class="cm">// start refreshing in background when less than 5 min remain</span>
-  },
+  { ttl: <span class="nm">3600</span>, revalidate: <span class="nm">300</span> },
 );
 </code><span class="pre-label">TypeScript</span></pre>
-
   <div class="callout tip">
     <strong>Stampede protection</strong>
-    When many requests trigger a cache miss at the same time, only one call to the source function is made. All other callers receive the same Promise and resolve together when it completes.
+    When concurrent requests trigger a cache miss on the same key, only one call to the source function is made. All waiters share the same Promise.
   </div>
 </section>
 
 <!-- AUDIT-LOG -->
 <section class="doc-section" id="sec-audit-log">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-audit); border-color: var(--pkg-audit); background: rgba(245,158,11,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-audit)"></span>@nx-safe-suite/audit-log
+    <span class="pkg-badge" style="color:var(--pkg-audit);border-color:var(--pkg-audit);background:rgba(245,158,11,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-audit)"></span>@nx-safe-suite/audit-log
     </span>
     <span class="pkg-version">v0.1.0</span>
   </div>
@@ -1194,10 +661,9 @@ guard.<span class="fn">withGuard</span>(
   ],
 });
 
-<span class="cm">// Inside a Server Action or API Route</span>
 <span class="kw">await</span> audit.<span class="fn">log</span>({
   action:   <span class="st">"user.delete"</span>,
-  actor:    { id: session.user.id, ip: req.headers.<span class="fn">get</span>(<span class="st">"x-forwarded-for"</span>) },
+  actor:    { id: session.user.id },
   resource: { type: <span class="st">"user"</span>, id: targetUserId },
   status:   <span class="st">"success"</span>,
 });
@@ -1207,8 +673,8 @@ guard.<span class="fn">withGuard</span>(
 <!-- AUDIT-TRANSPORTS -->
 <section class="doc-section" id="sec-audit-transports">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-audit); border-color: var(--pkg-audit); background: rgba(245,158,11,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-audit)"></span>@nx-safe-suite/audit-log
+    <span class="pkg-badge" style="color:var(--pkg-audit);border-color:var(--pkg-audit);background:rgba(245,158,11,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-audit)"></span>@nx-safe-suite/audit-log
     </span>
   </div>
   <h1>Transports</h1>
@@ -1219,31 +685,27 @@ guard.<span class="fn">withGuard</span>(
 
   <h2>HttpTransport</h2>
   <pre><code><span class="kw">new</span> <span class="fn">HttpTransport</span>({
-  url:         <span class="st">"https://ingest.example.com/audit"</span>,
-  headers:     { Authorization: <span class="st">`Bearer ${env.AUDIT_TOKEN}`</span> },
-  maxAttempts: <span class="nm">3</span>,
+  url:          <span class="st">"https://ingest.example.com/audit"</span>,
+  headers:      { Authorization: <span class="st">`Bearer ${env.AUDIT_TOKEN}`</span> },
+  maxAttempts:  <span class="nm">3</span>,
   retryDelayMs: <span class="nm">500</span>,
-  timeoutMs:   <span class="nm">5000</span>,
+  timeoutMs:    <span class="nm">5000</span>,
 })
 </code><span class="pre-label">TypeScript</span></pre>
 
   <h2>PrismaTransport</h2>
   <pre><code><span class="kw">new</span> <span class="fn">PrismaTransport</span>({
   model: db.auditLog,
-  <span class="cm">// Optional: map entry to your schema's exact columns</span>
   mapEntry: (entry) =&gt; ({
     action:      entry.action,
     actorId:     entry.actor?.id ?? <span class="kw">null</span>,
     resourceType: entry.resource?.type,
-    resourceId:  entry.resource?.id ?? <span class="kw">null</span>,
-    payload:     entry.payload ?? {},
     occurredAt:  <span class="kw">new</span> <span class="fn">Date</span>(entry.timestamp!),
   }),
 })
 </code><span class="pre-label">TypeScript</span></pre>
 
   <h2>Custom transport</h2>
-  <p>Implement the <code>AuditTransport</code> interface to send entries anywhere.</p>
   <pre><code><span class="kw">import type</span> { <span class="ty">AuditTransport</span>, <span class="ty">AuditEntry</span> } <span class="kw">from</span> <span class="st">"@nx-safe-suite/audit-log"</span>;
 
 <span class="kw">class</span> <span class="ty">AxiomTransport</span> <span class="kw">implements</span> <span class="ty">AuditTransport</span> {
@@ -1257,25 +719,18 @@ guard.<span class="fn">withGuard</span>(
 <!-- AUDIT-MASKING -->
 <section class="doc-section" id="sec-audit-masking">
   <div class="pkg-header">
-    <span class="pkg-badge" style="color: var(--pkg-audit); border-color: var(--pkg-audit); background: rgba(245,158,11,0.08)">
-      <span class="nav-dot" style="background: var(--pkg-audit)"></span>@nx-safe-suite/audit-log
+    <span class="pkg-badge" style="color:var(--pkg-audit);border-color:var(--pkg-audit);background:rgba(245,158,11,0.08)">
+      <span class="nav-dot" style="background:var(--pkg-audit)"></span>@nx-safe-suite/audit-log
     </span>
   </div>
   <h1>PII masking</h1>
-  <p>Fields listed in <code>sensitiveFields</code> are replaced by <code>"[REDACTED]"</code> in the <code>actor</code> and <code>payload</code> blocks before any transport receives the entry. The check is case-insensitive and applies recursively to nested objects and arrays.</p>
+  <p>Fields listed in <code>sensitiveFields</code> are replaced by <code>"[REDACTED]"</code> in <code>actor</code> and <code>payload</code> before any transport receives the entry. The check is case-insensitive and applies recursively to nested objects and arrays.</p>
 
-  <pre><code><span class="kw">const</span> audit = <span class="fn">createAuditLog</span>({
-  sensitiveFields: [<span class="st">"password"</span>, <span class="st">"ssn"</span>, <span class="st">"email"</span>, <span class="st">"creditCard"</span>],
-  transports: [<span class="kw">new</span> <span class="fn">ConsoleTransport</span>()],
-});
-
-<span class="kw">await</span> audit.<span class="fn">log</span>({
+  <pre><code><span class="kw">await</span> audit.<span class="fn">log</span>({
   action:  <span class="st">"user.register"</span>,
   payload: { email: <span class="st">"albert@example.com"</span>, password: <span class="st">"hunter2"</span>, name: <span class="st">"Albert"</span> },
 });
-
-<span class="cm">// What the transport receives:</span>
-<span class="cm">// { email: "[REDACTED]", password: "[REDACTED]", name: "Albert" }</span>
+<span class="cm">// Transport receives: { email: "[REDACTED]", password: "[REDACTED]", name: "Albert" }</span>
 </code><span class="pre-label">TypeScript</span></pre>
 
   <div class="callout info">
@@ -1290,6 +745,7 @@ guard.<span class="fn">withGuard</span>(
   <p class="lead">All notable changes to the packages in this monorepo.</p>
 
   <h2>0.1.0 — July 2026</h2>
+
   <h3>@nx-safe-suite/env</h3>
   <p>Initial release. <code>createEnv</code> with server/client/shared schemas, configurable failure strategy, client prefix enforcement, and <code>skipValidation</code> escape hatch. 11 unit tests.</p>
 
@@ -1309,111 +765,40 @@ guard.<span class="fn">withGuard</span>(
 </main>
 </div>
 
-<script>
-  const sections = {
-    'intro':        'sec-intro',
-    'install':      'sec-install',
-    'env':          'sec-env',
-    'env-api':      'sec-env-api',
-    'env-recipes':  'sec-env-recipes',
-    'api-response': 'sec-api-response',
-    'api-success':  'sec-api-success',
-    'api-errors':   'sec-api-errors',
-    'api-pagination':'sec-api-pagination',
-    'route-guard':  'sec-route-guard',
-    'guard-api-routes': 'sec-guard-api-routes',
-    'guard-actions':'sec-guard-actions',
-    'guard-rbac':   'sec-guard-rbac',
-    'guard-rate':   'sec-guard-rate',
-    'server-cache': 'sec-server-cache',
-    'cache-layers': 'sec-cache-layers',
-    'cache-tags':   'sec-cache-tags',
-    'cache-swr':    'sec-cache-swr',
-    'audit-log':    'sec-audit-log',
-    'audit-transports':'sec-audit-transports',
-    'audit-masking':'sec-audit-masking',
-    'changelog':    'sec-changelog',
-  };
+<!-- ── Mobile bottom nav ── -->
+<nav class="mobile-bottom-nav" aria-label="Package navigation">
+  <div class="mobile-bottom-nav-inner">
+    <button class="mobile-nav-btn" data-key="intro" onclick="navigate('intro')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      Intro
+    </button>
+    <button class="mobile-nav-btn" data-key="env" onclick="navigate('env')">
+      <div class="dot" style="background:var(--pkg-env)"></div>
+      env
+    </button>
+    <button class="mobile-nav-btn" data-key="api-response" onclick="navigate('api-response')">
+      <div class="dot" style="background:var(--pkg-api)"></div>
+      api
+    </button>
+    <button class="mobile-nav-btn" data-key="route-guard" onclick="navigate('route-guard')">
+      <div class="dot" style="background:var(--pkg-guard)"></div>
+      guard
+    </button>
+    <button class="mobile-nav-btn" data-key="server-cache" onclick="navigate('server-cache')">
+      <div class="dot" style="background:var(--pkg-cache)"></div>
+      cache
+    </button>
+    <button class="mobile-nav-btn" data-key="audit-log" onclick="navigate('audit-log')">
+      <div class="dot" style="background:var(--pkg-audit)"></div>
+      audit
+    </button>
+    <button class="mobile-nav-btn" data-key="changelog" onclick="navigate('changelog')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      Changes
+    </button>
+  </div>
+</nav>
 
-  const subs = {
-    'env':          'sub-env',
-    'env-api':      'sub-env',
-    'env-recipes':  'sub-env',
-    'api-response': 'sub-api',
-    'api-success':  'sub-api',
-    'api-errors':   'sub-api',
-    'api-pagination':'sub-api',
-    'route-guard':  'sub-guard',
-    'guard-api-routes':'sub-guard',
-    'guard-actions':'sub-guard',
-    'guard-rbac':   'sub-guard',
-    'guard-rate':   'sub-guard',
-    'server-cache': 'sub-cache',
-    'cache-layers': 'sub-cache',
-    'cache-tags':   'sub-cache',
-    'cache-swr':    'sub-cache',
-    'audit-log':    'sub-audit',
-    'audit-transports':'sub-audit',
-    'audit-masking':'sub-audit',
-  };
-
-  let current = 'intro';
-
-  function navigate(key) {
-    if (!sections[key]) return;
-
-    // Hide current
-    const prev = document.getElementById(sections[current]);
-    if (prev) prev.classList.remove('visible');
-
-    // Show new
-    const next = document.getElementById(sections[key]);
-    if (next) next.classList.add('visible');
-
-    // Update nav active state
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(el => {
-      if (el.getAttribute('onclick') === `navigate('${key}')`) el.classList.add('active');
-    });
-
-    // Toggle sub-nav
-    ['sub-env','sub-api','sub-guard','sub-cache','sub-audit'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'none';
-    });
-    const subId = subs[key];
-    if (subId) {
-      const sub = document.getElementById(subId);
-      if (sub) sub.style.display = 'block';
-    }
-
-    current = key;
-    window.scrollTo(0, 0);
-
-    // Close sidebar on mobile
-    if (window.innerWidth <= 768) {
-      document.getElementById('sidebar').classList.remove('open');
-    }
-  }
-
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
-
-  // Handle browser back/forward
-  window.addEventListener('popstate', () => {
-    const hash = location.hash.replace('#','') || 'intro';
-    if (sections[hash]) navigate(hash);
-  });
-
-  // Close sidebar on outside click (mobile)
-  document.addEventListener('click', (e) => {
-    if (window.innerWidth > 768) return;
-    const sidebar = document.getElementById('sidebar');
-    if (!sidebar.contains(e.target) && !e.target.closest('.menu-btn')) {
-      sidebar.classList.remove('open');
-    }
-  });
-</script>
+<script src="docs.js"></script>
 </body>
 </html>
